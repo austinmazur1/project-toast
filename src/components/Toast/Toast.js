@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   AlertOctagon,
   AlertTriangle,
@@ -18,16 +18,17 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast() {
+function Toast({message, radioType, setShowDialog}) {
+  const Tag = ICONS_BY_VARIANT[radioType]
   return (
-    <div className={`${styles.toast} ${styles.notice}`}>
+    <div className={`${styles.toast} ${styles[radioType]}`}>
       <div className={styles.iconContainer}>
-        <Info size={24} />
+        <Tag size={24} />
       </div>
       <p className={styles.content}>
-        16 photos have been uploaded
+        {message}
       </p>
-      <button className={styles.closeButton}>
+      <button onClick={() => setShowDialog(false)} className={styles.closeButton}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
