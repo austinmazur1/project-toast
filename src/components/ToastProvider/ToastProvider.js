@@ -29,7 +29,20 @@ function ToastProvider({ children }) {
     setMessage("");
     setRadioVariant("notice");
   };
+  React.useEffect(() => {
+    const handleKeyDown = ({key}) => {
+      if (key === "Escape") {
+        setToasts([]);
+      }
+    };
 
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+  
   return (
     <ToastContext.Provider
       value={{
@@ -38,6 +51,7 @@ function ToastProvider({ children }) {
         radioVariant,
         setRadioVariant,
         showDialog,
+        setToasts,
         toasts,
         handleDismiss,
         submitToast

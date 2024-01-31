@@ -28,9 +28,9 @@ function Toast({message, radioType, handleDismiss}) {
       <p className={styles.content}>
         {message}
       </p>
-      <button onClick={handleDismiss} className={styles.closeButton}>
+      <button aria-live='off' aria-label='Dismiss message' onClick={handleDismiss} className={styles.closeButton}>
         <X size={24} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
+        <VisuallyHidden> Dismiss message</VisuallyHidden>
       </button>
     </div>
   );
