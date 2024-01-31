@@ -1,4 +1,5 @@
 import React from "react";
+import useEscapeKey from "../../hooks/useEscapeKey";
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
@@ -6,6 +7,7 @@ function ToastProvider({ children }) {
   const [radioVariant, setRadioVariant] = React.useState("notice");
   const [showDialog, setShowDialog] = React.useState(false);
   const [toasts, setToasts] = React.useState([]);
+  useEscapeKey(setToasts)
 
   const handleDismiss = (toastId) => {
     const nextToasts = toasts.filter(({ id }) => {
@@ -29,19 +31,6 @@ function ToastProvider({ children }) {
     setMessage("");
     setRadioVariant("notice");
   };
-  React.useEffect(() => {
-    const handleKeyDown = ({key}) => {
-      if (key === "Escape") {
-        setToasts([]);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
   
   return (
     <ToastContext.Provider
