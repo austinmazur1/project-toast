@@ -4,37 +4,20 @@ import Button from "../Button";
 
 import styles from "./ToastPlayground.module.css";
 import ToastShelf from "../ToastShelf/ToastShelf";
+import { ToastContext } from "../ToastProvider/ToastProvider";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
-  const [message, setMessage] = React.useState("");
-  const [radioVariant, setRadioVariant] = React.useState("notice");
-  const [showDialog, setShowDialog] = React.useState(false);
-  const [toasts, setToasts] = React.useState([]);
+  const {
+    message,
+    setMessage,
+    radioVariant,
+    setRadioVariant,
+    showDialog,
+    submitToast
+  } = React.useContext(ToastContext);
 
-  const submitToast = (e) => {
-    e.preventDefault();
-    setShowDialog(true);
-    const nextToasts = [
-      ...toasts,
-      {
-        id: crypto.randomUUID(),
-        message,
-        radioVariant,
-      },
-    ];
-    setToasts(nextToasts);
-    setMessage('')
-    setRadioVariant('notice')
-  };
-
-  const handleDismiss = (toastId) => {
-    const nextToasts = toasts.filter(({id}) => {
-    return id !== toastId
-    })
-    setToasts(nextToasts)
-  }
 
   return (
     <div className={styles.wrapper}>
@@ -44,10 +27,7 @@ function ToastPlayground() {
       </header>
 
       {showDialog && (
-        <ToastShelf
-          toasts={toasts}
-          handleDismiss={handleDismiss}
-        />
+        <ToastShelf />
       )}
       <form onSubmit={submitToast} className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -82,7 +62,6 @@ function ToastPlayground() {
                     name="variant"
                     onChange={(e) => {
                       setRadioVariant(e.target.value);
-                      console.log(e.target);
                     }}
                     checked={option === radioVariant}
                     value={option}
