@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   AlertOctagon,
   AlertTriangle,
@@ -18,7 +18,7 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({message, radioType, setShowDialog}) {
+function Toast({message, radioType, handleDismiss}) {
   const Tag = ICONS_BY_VARIANT[radioType]
   return (
     <div className={`${styles.toast} ${styles[radioType]}`}>
@@ -28,7 +28,7 @@ function Toast({message, radioType, setShowDialog}) {
       <p className={styles.content}>
         {message}
       </p>
-      <button onClick={() => setShowDialog(false)} className={styles.closeButton}>
+      <button onClick={handleDismiss} className={styles.closeButton}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
